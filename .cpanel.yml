@@ -11,6 +11,7 @@ deployment:
     - /bin/cp higienizacao-de-colchao-blumenau.html $DEPLOYPATH
     - /bin/cp impermeabilizacao-de-estofados-blumenau.html $DEPLOYPATH
     - /bin/cp higienizacao-automotiva-blumenau.html $DEPLOYPATH
+    - /bin/rm -f $DEPLOYPATH/css/motion.css $DEPLOYPATH/css/seo-pages.css $DEPLOYPATH/css/styles_blubclean_premium.css $DEPLOYPATH/css/styles_blubclean_nova_paleta.css $DEPLOYPATH/css/styles_refinado.css
     - /bin/cp -R css $DEPLOYPATH
     - /bin/cp -R js $DEPLOYPATH
     - /bin/cp -R img $DEPLOYPATH
