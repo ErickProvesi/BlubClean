@@ -1,0 +1,17 @@
+---
+deployment:
+  tasks:
+    - export DEPLOYPATH=/home2/erickp03/public_html/
+    - /bin/cp index.html $DEPLOYPATH
+    - /bin/cp favicon.ico $DEPLOYPATH
+    - /bin/cp robots.txt $DEPLOYPATH
+    - /bin/cp sitemap.xml $DEPLOYPATH
+    - /bin/cp llms.txt $DEPLOYPATH
+    - /bin/cp higienizacao-de-sofa-blumenau.html $DEPLOYPATH
+    - /bin/cp higienizacao-de-colchao-blumenau.html $DEPLOYPATH
+    - /bin/cp impermeabilizacao-de-estofados-blumenau.html $DEPLOYPATH
+    - /bin/cp higienizacao-automotiva-blumenau.html $DEPLOYPATH
+    - /bin/cp -R css $DEPLOYPATH
+    - /bin/cp -R js $DEPLOYPATH
+    - /bin/cp -R img $DEPLOYPATH
+    - /bin/cp -R videos $DEPLOYPATH
