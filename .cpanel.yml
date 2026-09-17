@@ -16,3 +16,4 @@ deployment:
     - /bin/cp -R js $DEPLOYPATH
     - /bin/cp -R img $DEPLOYPATH
     - /bin/cp -R videos $DEPLOYPATH
+    - /bin/cp google7d685689c65b98cb.html $DEPLOYPATH
