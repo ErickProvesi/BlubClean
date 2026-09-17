@@ -34,7 +34,8 @@
 }
 
 html {
-  scroll-behavior: smooth;
+  /* A rolagem entre seções é animada pelo JS para ter duração/easing consistentes. */
+  scroll-behavior: auto;
 }
 
 section[id] {

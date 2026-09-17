@@ -16,7 +16,6 @@ Site institucional da Blub Clean, empresa de higienização de estofados em Blum
 - Sitemap
 - Google Search Console
 - Páginas específicas de serviços
-- Integração com WhatsApp
 
 ## Site
 

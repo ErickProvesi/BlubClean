@@ -277,21 +277,80 @@
 
   function initSmoothNavigation() {
     const header = document.querySelector('.header');
+    let animationFrame = null;
+
+    // Rolagem própria para ficar consistente e realmente suave em todos os navegadores.
+    // A duração aumenta um pouco em trajetos longos, sem ficar lenta demais.
+    function animateScroll(destination) {
+      if (animationFrame) cancelAnimationFrame(animationFrame);
+
+      const start = window.scrollY;
+      const distance = destination - start;
+      const absoluteDistance = Math.abs(distance);
+
+      if (absoluteDistance < 2) {
+        window.scrollTo(0, destination);
+        return;
+      }
+
+      const duration = Math.min(1150, Math.max(720, 680 + absoluteDistance * 0.11));
+      const startedAt = performance.now();
+
+      // Ease in/out cúbico: acelera naturalmente e desacelera antes de chegar.
+      const easeInOutCubic = progress =>
+        progress < 0.5
+          ? 4 * progress * progress * progress
+          : 1 - Math.pow(-2 * progress + 2, 3) / 2;
+
+      function step(now) {
+        const elapsed = now - startedAt;
+        const progress = Math.min(elapsed / duration, 1);
+        const eased = easeInOutCubic(progress);
+
+        window.scrollTo(0, start + distance * eased);
+
+        if (progress < 1) {
+          animationFrame = requestAnimationFrame(step);
+        } else {
+          animationFrame = null;
+          window.scrollTo(0, destination);
+        }
+      }
+
+      animationFrame = requestAnimationFrame(step);
+    }
+
+    function targetTop(target) {
+      const headerHeight = header ? header.getBoundingClientRect().height : 0;
+      return Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerHeight - 18);
+    }
+
     document.querySelectorAll('a[href^="#"]').forEach(link => {
       link.addEventListener('click', event => {
         const href = link.getAttribute('href');
         if (!href || href === '#') return;
+
         const target = document.querySelector(href);
         if (!target) return;
 
         event.preventDefault();
-        const headerHeight = header ? header.getBoundingClientRect().height : 0;
-        const top = Math.max(0, target.getBoundingClientRect().top + window.scrollY - headerHeight - 14);
+        animateScroll(targetTop(target));
 
-        window.scrollTo({ top, behavior: 'smooth' });
-        if (window.location.hash !== href) history.pushState(null, '', href);
+        if (window.location.hash !== href) {
+          history.pushState(null, '', href);
+        }
       });
     });
+
+    // Se o usuário começar a rolar manualmente durante a animação, devolve o controle na hora.
+    const stopAnimation = () => {
+      if (!animationFrame) return;
+      cancelAnimationFrame(animationFrame);
+      animationFrame = null;
+    };
+
+    window.addEventListener('wheel', stopAnimation, { passive: true });
+    window.addEventListener('touchstart', stopAnimation, { passive: true });
   }
 
   initGallery();
